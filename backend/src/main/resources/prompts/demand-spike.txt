@@ -1,0 +1,31 @@
+SITUATION: DEMAND SPIKE
+Why you are being asked now: {{triggerDetail}}
+
+DEMAND SIGNAL (the primary signal)
+- Demand velocity: {{velocity}} orders in the last 24h
+- Category average across {{peerCount}} peer product(s): {{categoryAvg}} orders/24h
+- This product is selling at {{velocityRatio}}x the category average; the spike threshold is {{spikeMultiplier}}x ({{spikeThreshold}} orders/24h)
+- At this pace the current stock lasts about {{daysOfCover}} day(s)
+
+PRODUCT
+- {{name}} (SKU {{sku}}), category {{category}}
+- Current price: {{currentPrice}}
+- Cost price: {{costPrice}}; margin floor: {{marginFloor}}
+
+STOCK POSITION
+- Stock on hand: {{stockLevel}} units; reorder threshold {{reorderThreshold}} units ({{stockStatus}})
+- Typical supplier lead time for {{category}}: {{defaultLeadTime}} days{{stockoutBeforeLeadTime}}
+
+THE PRICING DECISION
+A spike is an opportunity and a risk. First decide whether this spike is more likely TRANSIENT (a one-day viral moment, promotion, social post) or SUSTAINED (a genuine shift in demand); state your assumption and how it shaped the numbers.
+- CAPITALIZE_ON_DEMAND: a modest increase (typically 3-8%) captures willingness to pay while the item trends. Increases above 15% risk cart abandonment and looking like price gouging on a viral item; only go there if stock is critically short and say so.
+- HOLD: keep the price if the spike looks transient, the item is already premium for its category, or protecting conversion and new-customer goodwill matters more than margin.
+- CLEARANCE is almost never right during a spike; do not choose it without an exceptional, explicit reason.
+In the reasoning, name the tactic you rejected and why.
+
+THE REORDER DECISION
+- Size the reorder to the SUSTAINED demand you assume, not the peak: over-ordering on a one-day spike leaves dead stock; under-ordering on a real trend loses sales.
+- If stock runs out before the lead time, say so, and consider a shorter leadTimeDays (expedited) if the trend looks sustained.
+
+RULE-BASED BASELINE (for reference only; improve on it if the data supports a better call)
+- Price {{rulePrice}} ({{ruleTactic}}); reorder {{ruleQuantity}} units.

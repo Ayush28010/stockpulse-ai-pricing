@@ -1,0 +1,25 @@
+SITUATION: MANUAL REVIEW
+Why you are being asked now: {{triggerDetail}}
+No automatic trigger fired; a merchandiser wants a second opinion. Decide first which situation applies (low stock, strong demand, weak demand, or steady state) and say so in the reasoning.
+
+PRODUCT
+- {{name}} (SKU {{sku}}), category {{category}}
+- Current price: {{currentPrice}}
+- Cost price: {{costPrice}}; margin floor: {{marginFloor}}
+
+STOCK
+- Stock on hand: {{stockLevel}} units; reorder threshold {{reorderThreshold}} units ({{stockStatus}})
+- Estimated days of cover at current velocity: {{daysOfCover}}
+- Typical supplier lead time for {{category}}: {{defaultLeadTime}} days
+
+DEMAND
+- Demand velocity: {{velocity}} orders in the last 24h
+- Category average across {{peerCount}} peer product(s): {{categoryAvg}} orders/24h ({{velocityRatio}}x)
+
+GUIDANCE
+- In steady state, HOLD is a perfectly good answer; do not change price just to have a recommendation.
+- If demand is weak versus peers and stock is ample, a modest CLEARANCE may be right; if demand is strong, a small CAPITALIZE_ON_DEMAND increase may be right.
+- Reorder only what keeps stock above threshold through lead time plus a safety buffer; if stock is already ample, recommend a small top-up (minimum 1) and say no urgent order is needed.
+
+RULE-BASED BASELINE (for reference only)
+- Price {{rulePrice}} ({{ruleTactic}}); reorder {{ruleQuantity}} units.

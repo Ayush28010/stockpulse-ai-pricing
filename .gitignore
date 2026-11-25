@@ -1,0 +1,22 @@
+# Backend
+backend/target/
+backend/data/
+backend/application-local.properties
+*.db
+*.db-wal
+*.db-shm
+
+# Frontend
+frontend/node_modules/
+frontend/dist/
+frontend/.env.local
+
+# IDE / OS
+.idea/
+.vscode/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Personal notes (not part of the submission)
+*.local.md

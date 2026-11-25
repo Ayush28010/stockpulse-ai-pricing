@@ -1,0 +1,34 @@
+SITUATION: INVENTORY LOW
+Why you are being asked now: {{triggerDetail}}
+
+PRODUCT
+- {{name}} (SKU {{sku}}), category {{category}}
+- Current price: {{currentPrice}}
+- Cost price: {{costPrice}}; margin floor: {{marginFloor}}
+
+STOCK POSITION (the primary signal)
+- Stock on hand: {{stockLevel}} units
+- Reorder threshold: {{reorderThreshold}} units
+- Shortfall vs threshold: {{shortfall}} units (stock is {{stockPctOfThreshold}}% of threshold)
+- Estimated days of cover at current velocity: {{daysOfCover}}
+- Typical supplier lead time for {{category}}: {{defaultLeadTime}} days{{stockoutBeforeLeadTime}}{{outOfStockNote}}
+
+DEMAND CONTEXT (use it to decide WHY stock is low)
+- Demand velocity: {{velocity}} orders in the last 24h
+- Category average across {{peerCount}} peer product(s): {{categoryAvg}} orders/24h
+- This product sells at {{velocityRatio}}x the category average
+{{additionalSignals}}
+THE PRICING DECISION
+Low stock is genuinely ambiguous. Pick ONE tactic and defend it against the others:
+- PROTECT_INVENTORY: raise price (typically 3-12%) to slow sell-through and earn margin on scarce units until replenishment lands. Fits when demand is at or above the category average, so stock is low because the item sells well.
+- CLEARANCE: lower price (typically 10-30%) to move the remaining units. Fits when demand is weak versus peers (roughly below 0.7x the category average), the item looks seasonal or ageing, or you would not restock it at volume. Stock is low because it was never replenished, not because it sells.
+- HOLD: keep the price when the gap to threshold is small and the reorder covers lead time, or the signals conflict.
+In the reasoning, say explicitly which tactic you rejected and the risk you are accepting (e.g. raising price risks losing conversion on a healthy seller; clearance gives away margin on an item customers want).
+
+THE REORDER DECISION
+- Size the order to cover lead time plus a 7-14 day safety buffer at the current velocity, and bring stock comfortably back above the threshold.
+- Make reorder consistent with pricing: if you chose CLEARANCE, reorder conservatively (or the minimum of 1) and say you are letting the item run down; if you chose PROTECT_INVENTORY, reorder enough that the higher price is temporary.
+- leadTimeDays: use {{defaultLeadTime}} unless you justify expediting.
+
+RULE-BASED BASELINE (for reference only; improve on it if the data supports a better call)
+- Price {{rulePrice}} ({{ruleTactic}}); reorder {{ruleQuantity}} units.

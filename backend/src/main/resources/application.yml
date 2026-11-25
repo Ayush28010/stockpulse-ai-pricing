@@ -1,0 +1,73 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: stockpulse
+  # Local secrets (LLM key) live in a git-ignored file next to pom.xml.
+  config:
+    import: "optional:file:./application-local.properties"
+  datasource:
+    url: "jdbc:sqlite:${stockpulse.db.path}?journal_mode=WAL&busy_timeout=5000&foreign_keys=true"
+    driver-class-name: org.sqlite.JDBC
+    hikari:
+      # SQLite allows one writer; a single pooled connection serialises transactions and avoids SQLITE_BUSY.
+      maximum-pool-size: 1
+      pool-name: stockpulse-sqlite
+  sql:
+    init:
+      mode: always
+      schema-locations: classpath:schema.sql
+  jpa:
+    open-in-view: false
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
+    hibernate:
+      ddl-auto: none
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    default-property-inclusion: always
+
+stockpulse:
+  db:
+    path: ${STOCKPULSE_DB_PATH:./data/stockpulse.db}
+  cors:
+    allowed-origins: http://localhost:5173,http://localhost:4200
+  seed:
+    enabled: true
+  strategy:
+    # Initial active strategy; switch at runtime with PUT /settings/strategy (persisted, no restart).
+    default-name: ${STOCKPULSE_STRATEGY:AI}
+    # app_settings row is re-read this often, so a direct config edit (e.g. in DBeaver) also applies live.
+    refresh-interval: PT5S
+  trigger:
+    spike-multiplier: 3.0
+  rule:
+    demand-multiplier: 2.0
+    low-stock-increase-pct: 10
+    demand-increase-pct: 5
+    reorder-multiplier: 3
+  guardrail:
+    min-price-ratio: 0.25
+    max-price-ratio: 4.0
+    flag-change-pct: 30
+    max-reorder-threshold-multiple: 20
+    max-reorder-days-of-cover: 60
+  velocity:
+    refresh-interval: PT5M
+
+llm:
+  base-url: ${LLM_BASE_URL:https://litellm-qc.zycus.net}
+  chat-path: ${LLM_CHAT_PATH:/v1/chat/completions}
+  api-key: ${LLM_API_KEY:}
+  model: ${LLM_MODEL:gpt-5.6-luna-azure-payg-global}
+  extra-headers:
+    product: ${LLM_PRODUCT_HEADER:PC1}
+  connect-timeout: 5s
+  read-timeout: 25s
+  stream-timeout: 60s
+  json-mode: true
+
+logging:
+  level:
+    com.stockpulse: INFO

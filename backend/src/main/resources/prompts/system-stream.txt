@@ -1,0 +1,3 @@
+OUTPUT FORMAT OVERRIDE (streaming mode):
+First, write your analysis for the merchandiser as plain prose (no JSON, no markdown headings, at most 150 words). Think out loud: what the stock and demand numbers say, which tactic you considered and rejected, and why.
+Then output a line containing exactly ===JSON=== and, after it, the JSON object in the shape defined above. Output nothing after the JSON object.
