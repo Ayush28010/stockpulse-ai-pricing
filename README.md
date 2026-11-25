@@ -13,6 +13,34 @@ merchandiser console ◀── poll every 4s ◀── PENDING pricing + reorder
 - **Layout:** `/backend` (Spring Boot 3.3, Java 17+, SQLite) and `/frontend` (React 18 + Vite + TypeScript).
 - **Tests:** 51 passing (`cd backend && ./mvnw test`), including an end-to-end test of the agentic loop.
 
+## Screenshots
+
+Captured from the running app against the real LLM, on the seeded data.
+
+**Review queue.** The agent has queued pricing and reorder suggestions on its own (`Initial · auto` badges). Each card shows the tactic, confidence, the AI's reasoning (including the option it rejected) and Accept/Reject. The flag on the out-of-stock lamp comes from a server-side validation rule.
+
+![Review queue with auto-triggered suggestions](docs/screenshots/01-console-overview.png)
+
+**Inventory-low trigger.** One simulated sale pushed the T-shirt below its reorder threshold (7 < 15). A pricing and a reorder suggestion appeared with the `Inventory low · auto` badge, without any button click, next to the earlier `Initial` ones.
+
+![Inventory-low auto suggestions](docs/screenshots/02-inventory-low-auto-suggestions.png)
+
+**Demand-spike trigger.** Eight sales on the hoodie pushed velocity to 3.3× the category average. The `Demand spike · auto` pair uses a different prompt: the model reasons about transient vs sustained demand and sizes the reorder to sustained demand, not the peak.
+
+![Demand-spike auto suggestions](docs/screenshots/03-demand-spike-auto.png)
+
+**Catalog board.** Category and status filters, stock heatmap (out / below threshold / watch / healthy), velocity vs category average with a spike marker, pending counts, simulate-sale and set-stock controls, and the on-demand advisor buttons.
+
+![Catalog board](docs/screenshots/04-catalog-board.png)
+
+**Human checkpoint and price history.** After accepting the inventory-low price, the live price moved $24.99 → $27.49 in one transaction. The older `Initial` pricing suggestion was superseded automatically because it was computed against the old price.
+
+![Price history and suggestion log](docs/screenshots/05-price-history.png)
+
+**Live AI reasoning (SSE).** The reasoning streams token by token; the validated suggestion then lands in the review queue as a pending `Manual` suggestion.
+
+![Live SSE reasoning](docs/screenshots/06-sse-live-reasoning.png)
+
 ## Where each requirement lives
 
 | Brief task | Where to look |
